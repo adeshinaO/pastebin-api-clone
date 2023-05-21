@@ -34,13 +34,9 @@ public class DefaultTextService implements TextService {
     }
 
     // TODO: (1 pomodoro = 25mins)
-    //  1 pmd - Write job that runs every week and deletes all expired texts.
-    //  1 pmd - Write Unit test for the job.
     //  1 pmd - Write and test Dockerfile. Should run maven build too.
     //  1 pmd - Write README. (List Flyway as a possible improvement. another is using block storage for text content
-    //                        and a dedicated key generation service. Integr. tests improvement too)
-    //  2 pmd - Write limited integration test for text controller.
-    //  1 pmd - Write SQL for needed tables: texts, Shedlock;
+    //                        and a dedicated key generation service. Integr. tests improvement too. env properties too)
     //  1 pmd - Manual Tests, Final Commits.
 
     @Override
