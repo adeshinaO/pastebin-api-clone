@@ -13,7 +13,7 @@ public class CreateTextDto {
     private String content; // todo: use a config property in service class to check max allowed size
 
     @NotNull(message = "MESSSS>>>> TODO")
-    private boolean canExpire;
+    private boolean hasExpiryDate;
 
     @Pattern(regexp = RegexPatterns.VALID_DATE_TIME_AND_ZONE, message = "TODO>>>>>>>>>")
     private String expiryDate;

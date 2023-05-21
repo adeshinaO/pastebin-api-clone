@@ -25,8 +25,6 @@ public class TextController {
         return new ResponseEntity<>(textDto, HttpStatus.CREATED);
     }
 
-    // todo: write integration test for this controller. test error paths
-
     @GetMapping("/{reference}")
     public ResponseEntity<TextDto> getText(@PathVariable("reference") String reference) {
         TextDto textDto = textService.getText(reference);

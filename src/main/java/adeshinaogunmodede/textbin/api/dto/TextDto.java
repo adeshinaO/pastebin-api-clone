@@ -7,4 +7,5 @@ public class TextDto {
     private String content;
     private String expiryDate;
     private boolean hasExpiryDate;
+    private String reference;
 }
