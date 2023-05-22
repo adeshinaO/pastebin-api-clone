@@ -15,7 +15,6 @@ import adeshinaogunmodede.textbin.repository.TextRepository;
 import adeshinaogunmodede.textbin.service.impl.DefaultTextService;
 import java.time.ZonedDateTime;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,7 +118,7 @@ public class DefaultTextServiceTest {
 
         String reference = "ref_2";
         String content = "The content";
-        String expiryDateStr = "2023-01-03T02:01:22+01:00";
+        String expiryDateStr = "2023-11-03T02:01:22+01:00";
 
         Text text = new Text();
         text.setReference(reference);

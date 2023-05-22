@@ -8,9 +8,11 @@ import adeshinaogunmodede.textbin.exception.TextContentRetrievalException;
 import adeshinaogunmodede.textbin.model.Text;
 import adeshinaogunmodede.textbin.repository.TextRepository;
 import adeshinaogunmodede.textbin.service.TextService;
+import adeshinaogunmodede.textbin.util.RegexPatterns;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,12 +35,6 @@ public class DefaultTextService implements TextService {
         this.maximumContentLength = maximumContentLength;
     }
 
-    // TODO: (1 pomodoro = 25mins)
-    //  1 pmd - Write and test Dockerfile. Should run maven build too.
-    //  1 pmd - Write README. (List Flyway as a possible improvement. another is using block storage for text content
-    //                        and a dedicated key generation service. Integr. tests improvement too. env properties too)
-    //  1 pmd - Manual Tests, Final Commits.
-
     @Override
     public TextDto createText(CreateTextDto createTextDto) {
 
@@ -49,9 +45,14 @@ public class DefaultTextService implements TextService {
         text.setContent(content);
 
         if (createTextDto.isHasExpiryDate()) {
-            ZonedDateTime expiryDate = getExpiryDate(createTextDto.getExpiryDate());
-            text.setExpiryDate(expiryDate);
-            text.setHasExpiryDate(true);
+            String expiryDateStr = createTextDto.getExpiryDate();
+            if (expiryDateStr != null && !expiryDateStr.isEmpty() && expiryDateStr.matches(RegexPatterns.VALID_DATE_TIME_AND_ZONE)) {
+                ZonedDateTime expiryDate = getExpiryDate(createTextDto.getExpiryDate());
+                text.setExpiryDate(expiryDate);
+                text.setHasExpiryDate(true);
+            } else {
+                throw new TextContentCreationException("Expiry Date is absent or invalid", ErrorCode.INVALID_EXPIRY_DATE);
+            }
         }
 
         text.setReference(generateReference(content.substring(0, minimumContentLength)));
@@ -96,6 +97,7 @@ public class DefaultTextService implements TextService {
         TextDto textDto = new TextDto();
         textDto.setContent(text.getContent());
         textDto.setHasExpiryDate(text.isHasExpiryDate());
+        textDto.setReference(text.getReference());
         if (textDto.isHasExpiryDate()) {
             textDto.setExpiryDate(text.getExpiryDate().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }
